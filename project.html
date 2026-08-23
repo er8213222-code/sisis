@@ -1133,4 +1133,159 @@ function enviar(seccion){
             seccion==="aqui"
             ? "mensajeAqui"
             : seccion==="llevar"
+            
   
+    if(seccion==="aqui"){
+
+        if(!document.getElementById("mesa").value.trim()){
+
+            mensaje.textContent="falta la mesa.";
+            return;
+
+        }
+
+    }
+
+    if(seccion==="pedido"){
+
+        if(!document.getElementById("ubicacion").value.trim()){
+
+            mensaje.textContent="falta la ubicación.";
+            return;
+
+        }
+
+    }
+
+    let hay=false;
+
+    productos.forEach(p=>{
+
+        if(
+            parseInt(
+                estado[seccion][p.id].cantidad
+            )>0
+        ){
+
+            hay=true;
+
+        }
+
+    });
+
+    if(!hay){
+
+        mensaje.textContent="agrega un producto.";
+        return;
+
+    }
+
+    mensaje.textContent="pedido listo.";
+
+}
+
+
+/* GUARDAR */
+
+function guardar(){
+
+    try{
+
+        localStorage.setItem(
+            "taconazo_estado",
+            JSON.stringify(estado)
+        );
+
+        localStorage.setItem(
+            "taconazo_mesa",
+            document.getElementById("mesa")?.value || ""
+        );
+
+        localStorage.setItem(
+            "taconazo_personas",
+            document.getElementById("personas")?.value || ""
+        );
+
+        localStorage.setItem(
+            "taconazo_ubicacion",
+            document.getElementById("ubicacion")?.value || ""
+        );
+
+    }catch(e){}
+
+}
+
+
+/* CARGAR */
+
+function cargar(){
+
+    try{
+
+        const guardado =
+            localStorage.getItem("taconazo_estado");
+
+        if(guardado){
+
+            const datos = JSON.parse(guardado);
+
+            ["aqui","llevar","pedido"].forEach(seccion=>{
+
+                if(datos[seccion]){
+
+                    productos.forEach(p=>{
+
+                        if(datos[seccion][p.id]){
+
+                            estado[seccion][p.id] =
+                                datos[seccion][p.id];
+
+                        }
+
+                    });
+
+                }
+
+            });
+
+        }
+
+        const mesa =
+            localStorage.getItem("taconazo_mesa");
+
+        const personas =
+            localStorage.getItem("taconazo_personas");
+
+        const ubicacion =
+            localStorage.getItem("taconazo_ubicacion");
+
+        if(mesa)
+            document.getElementById("mesa").value = mesa;
+
+        if(personas)
+            document.getElementById("personas").value = personas;
+
+        if(ubicacion)
+            document.getElementById("ubicacion").value = ubicacion;
+
+    }catch(e){}
+
+}
+
+
+/* INICIO */
+
+crearProductos();
+
+cargar();
+
+["aqui","llevar","pedido"].forEach(seccion=>{
+
+    actualizarPantalla(seccion);
+
+});
+
+</script>
+
+</body>
+</html>
