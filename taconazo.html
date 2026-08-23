@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Taconazo</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:#070707;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+
+header{
+  background:#000;
+  color:#ffd400;
+  text-align:center;
+  padding:18px 10px;
+  font-size:30px;
+  font-weight:900;
+  border-bottom:2px solid #ffd400;
+}
+
+.contenedor{
+  max-width:850px;
+  margin:auto;
+  padding:15px;
+}
+
+.oculto{display:none!important}
+
+/* PORTADA */
+
+#portada{
+  min-height:calc(100vh - 90px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:15px;
+}
+
+.opcion{
+  width:100%;
+  min-height:115px;
+  border:2px solid #333;
+  border-radius:20px;
+  background:#151515;
+  color:#fff;
+  font-size:28px;
+  font-weight:900;
+}
+
+.opcion.amarillo{
+  background:#ffd400;
+  color:#000;
+  border-color:#ffd400;
+}
+
+.icono{
+  display:block;
+  font-size:42px;
+  margin-bottom:5px;
+}
+
+/* INTERIOR */
+
+.barra{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.volver{
+  background:#151515;
+  color:#fff;
+  border:2px solid #444;
+  border-radius:10px;
+  padding:10px 13px;
+  font-weight:900;
+}
+
+.titulo{
+  flex:1;
+  text-align:center;
+  color:#ffd400;
+  font-size:25px;
+  font-weight:900;
+}
+
+.caja{
+  background:#151515;
+  border:1px solid #292929;
+  border-radius:13px;
+  padding:14px;
+  margin-bottom:14px;
+}
+
+.caja label{
+  display:block;
+  font-weight:900;
+  margin-bottom:7px;
+}
+
+.caja input{
+  width:100%;
+  padding:12px;
+  background:#000;
+  color:#fff;
+  border:2px solid #555;
+  border-radius:9px;
+  font-size:20px;
+  font-weight:900;
+}
+
+h2{
+  color:#ffd400;
+  font-size:21px;
+  margin:18px 0 8px;
+}
+
+.producto{
+  background:#151515;
+  border:1px solid #292929;
+  border-radius:13px;
+  padding:10px;
+  margin-bottom:8px;
+}
+
+.linea{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:7px;
+}
+
+.nombre{
+  font-size:20px;
+  font-weight:900;
+}
+
+.cantidad{
+  width:68px;
+  height:42px;
+  background:#000;
+  color:#fff;
+  border:2px solid #555;
+  border-radius:8px;
+  text-align:center;
+  font-size:20px;
+  font-weight:900;
+}
+
+.mas{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:8px;
+  background:#ffd400;
+  color:#000;
+  font-size:27px;
+  font-weight:900;
+}
+
+.opciones{
+  display:none;
+  gap:5px;
+  flex-wrap:wrap;
+  margin-top:7px;
+}
+
+.opciones button{
+  background:#0e0e0e;
+  color:#fff;
+  border:1px solid #555;
+  border-radius:7px;
+  padding:5px 8px;
+  font-size:12px;
+  font-weight:900;
+}
+
+.opciones button.activo{
+  background:#ffd400;
+  color:#000;
+  border-color:#ffd400;
+}
+
+.resumen{
+  background:#000;
+  border:1px solid #333;
+  border-radius:13px;
+  padding:14px;
+  margin-top:18px;
+}
+
+.resumen-titulo{
+  color:#ffd400;
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:7px;
+}
+
+.enviar{
+  width:100%;
+  margin-top:12px;
+  padding:16px;
+  background:#e30613;
+  color:#fff;
+  border:0;
+  border-radius:12px;
+  font-size:21px;
+  font-weight:900;
+}
+
+.mensaje{
+  text-align:center;
+  color:#ffd400;
+  font-weight:900;
+  min-height:22px;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>🌮 EL TACONAZO</header>
+
+<div class="contenedor">
+
+<!-- PORTADA -->
+
+<section id="portada">
+
+  <button class="opcion" onclick="abrir('aqui')">
+    <span class="icono">🌮</span>
+    PARA AQUÍ
+  </button>
+
+  <button class="opcion amarillo" onclick="abrir('llevar')">
+    <span class="icono">🛍️</span>
+    PARA LLEVAR
+  </button>
+
+  <button class="opcion" onclick="abrir('pedido')">
+    <span class="icono">📞</span>
+    PEDIDO
+  </button>
+
+</section>
+
+
+<!-- PARA AQUÍ -->
+
+<section id="aqui" class="pantalla oculto">
+
+  <div class="barra">
+    <button class="volver" onclick="volver()">
+      ← volver
+    </button>
+
+    <div class="titulo">para aquí</div>
+  </div>
+
+  <div class="caja">
+    <label>mesa</label>
+    <input
+      id="mesa"
+      type="number"
+      min="1"
+      inputmode="numeric"
+      placeholder="número de mesa"
+    >
+  </div>
+
+  <div id="productosAqui"></div>
+
+  <div class="resumen">
+    <div class="resumen-titulo">pedido</div>
+    <div id="resumenAqui">
+      todavía no hay productos.
+    </div>
+  </div>
+
+  <button class="enviar" onclick="enviar('aqui')">
+    enviar pedido
+  </button>
+
+  <div id="mensajeAqui" class="mensaje"></div>
+
+</section>
+
+
+<!-- PARA LLEVAR -->
+
+<section id="llevar" class="pantalla oculto">
+
+  <div class="barra">
+    <button class="volver" onclick="volver()">
+      ← volver
+    </button>
+
+    <div class="titulo">para llevar</div>
+  </div>
+
+  <div id="productosLlevar"></div>
+
+  <div class="resumen">
+    <div class="resumen-titulo">pedido</div>
+    <div id="resumenLlevar">
+      todavía no hay productos.
+    </div>
+  </div>
+
+  <button class="enviar" onclick="enviar('llevar')">
+    enviar pedido
+  </button>
+
+  <div id="mensajeLlevar" class="mensaje"></div>
+
+</section>
+
+
+<!-- PEDIDO TELEFÓNICO -->
+
+<section id="pedido" class="pantalla oculto">
+
+  <div class="barra">
+    <button class="volver" onclick="volver()">
+      ← volver
+    </button>
+
+    <div class="titulo">pedido</div>
+  </div>
+
+  <div class="caja">
+    <label>¿cuántos son?</label>
+    <input
+      id="personas"
+      type="number"
+      min="1"
+      inputmode="numeric"
+      placeholder=""
+    >
+  </div>
+
+  <div id="productosPedido"></div>
+
+  <div class="caja">
+    <label>ubicación</label>
+    <input
+      id="ubicacion"
+      type="text"
+      placeholder="calle, colonia o negocio"
+    >
+  </div>
+
+  <div class="resumen">
+    <div class="resumen-titulo">pedido</div>
+    <div id="resumenPedido">
+      todavía no hay productos.
+    </div>
+  </div>
+
+  <button class="enviar" onclick="enviar('pedido')">
+    ENVIARLO
+  </button>
+
+  <div id="mensajePedido" class="mensaje"></div>
+
+</section>
+
+</div>
+
+<script>
+
+/* PRODUCTOS */
+
+const productos=[
+  {
+    id:"ado",
+    nombre:"taco ado",
+    tipo:"taco",
+    precio:17
+  },
+  {
+    id:"res",
+    nombre:"taco res",
+    tipo:"taco",
+    precio:17
+  },
+  {
+    id:"tortaAdo",
+    nombre:"torta ado",
+    tipo:"torta",
+    precio:45
+  },
+  {
+    id:"tortaRes",
+    nombre:"torta res",
+    tipo:"torta",
+    precio:45
+  },
+  {
+    id:"coca",
+    nombre:"coca",
+    tipo:"bebida",
+    precio:30
+  },
+  {
+    id:"sprite",
+    nombre:"sprite",
+    tipo:"bebida",
+    precio:30
+  },
+  {
+    id:"fanta",
+    nombre:"fanta",
+    tipo:"bebida",
+    precio:30
+  },
+  {
+    id:"agua",
+    nombre:"agua mineral",
+    tipo:"bebida",
+    precio:30
+  },
+  {
+    id:"cerveza",
+    nombre:"cerveza",
+    tipo:"bebida",
+    precio:30
+  }
+];
+
+
+/* ESTADO */
+
+const estado={
+  aqui:{},
+  llevar:{},
+  pedido:{}
+};
+
+function prepararEstado(){
+
+  ["aqui","llevar","pedido"].forEach(seccion=>{
+
+    productos.forEach(p=>{
+
+      estado[seccion][p.id]={
+        cantidad:"",
+        harina:false,
+        verdura:null
+      };
+
+    });
+
+  });
+
+}
+
+prepararEstado();
+
+
+/* NAVEGACIÓN */
+
+function abrir(seccion){
+
+  document.getElementById("portada")
+    .classList.add("oculto");
+
+  document.querySelectorAll(".pantalla")
+    .forEach(p=>p.classList.add("oculto"));
+
+  document.getElementById(seccion)
+    .classList.remove("oculto");
+
+  actualizarPantalla(seccion);
+}
+
+
+function volver(){
+
+  guardar();
+
+  document.querySelectorAll(".pantalla")
+    .forEach(p=>p.classList.add("oculto"));
+
+  document.getElementById("portada")
+    .classList.remove("oculto");
+}
+
+
+/* CREAR PRODUCTOS */
+
+function crearProductos(){
+
+  const cajas={
+    aqui:document.getElementById("productosAqui"),
+    llevar:document.getElementById("productosLlevar"),
+    pedido:document.getElementById("productosPedido")
+  };
+
+  ["aqui","llevar","pedido"].forEach(seccion=>{
+
+    productos.forEach(p=>{
+
+      const div=document.createElement("div");
+      div.className="producto";
+
+      let botones="";
+
+      if(p.tipo==="taco"){
+
+        botones=`
+          <button
+            type="button"
+            id="${seccion}-${p.id}-h"
+            onclick="harina('${seccion}','${p.id}')">
+            h
+          </button>
+
+          <button
+            type="button"
+            id="${seccion}-${p.id}-sc"
+            onclick="verdura('${seccion}','${p.id}','s/c')">
+            s/c
+          </button>
+
+          <button
+            type="button"
+            id="${seccion}-${p.id}-sceb"
+            onclick="verdura('${seccion}','${p.id}','s/ceb')">
+            s/ceb
+          </button>
+
+          <button
+            type="button"
+            id="${seccion}-${p.id}-sv"
+            onclick="verdura('${seccion}','${p.id}','s/v')">
+            s/v
+          </button>
+        `;
+
+      }
+
+      if(p.tipo==="torta"){
+
+        botones=`
+          <button
+            type="button"
+            id="${seccion}-${p.id}-sc"
+            onclick="verdura('${seccion}','${p.id}','s/c')">
+            s/c
+          </button>
+
+          <button
+            type="button"
+            id="${seccion}-${p.id}-sceb"
+            onclick="verdura('${seccion}','${p.id}','s/ceb')">
+            s/ceb
+          </button>
+
+          <button
+            type="button"
+            id="${seccion}-${p.id}-sv"
+            onclick="verdura('${seccion}','${p.id}','s/v')">
+            s/v
+          </button>
+        `;
+
+      }
+
+      div.innerHTML=`
+
+        <div class="linea">
+
+          <div class="nombre">
+            ${p.nombre}
+          </div>
+
+          <div style="display:flex;gap:5px">
+
+            <input
+              id="${seccion}-${p.id}"
+              class="cantidad"
+              type="number"
+              min="1"
+              inputmode="numeric"
+              placeholder=""
+            >
+
+            <button
+              type="button"
+              class="mas"
+              onclick="sumar('${seccion}','${p.id}')">
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+        ${
+          botones
+          ?
+          `
+          <div
+            id="${seccion}-${p.id}-opciones"
+            class="opciones">
+            ${botones}
+          </div>
+          `
+          :
+          ""
+        }
+
+      `;
+
+      cajas[seccion].appendChild(div);
+
+      const input=
+        document.getElementById(
+          `${seccion}-${p.id}`
+        );
+
+      input.addEventListener("input",()=>{
+
+        let valor=input.value.trim();
+
+        if(valor===""){
+
+          estado[seccion][p.id].cantidad="";
+
+        }else{
+
+          let numero=parseInt(valor);
+
+          if(isNaN(numero)||numero<1){
+
+            input.value="";
+            estado[seccion][p.id].cantidad="";
+
+          }else{
+
+            estado[seccion][p.id].cantidad=
+              String(numero);
+
+          }
+
+        }
+
+        actualizarProducto(seccion,p.id);
+        actualizarResumen(seccion);
+        guardar();
+
+      });
+
+      input.addEventListener("focus",()=>{
+        input.select();
+      });
+
+    });
+
+  });
+
+}
+
+
+/* CANTIDAD */
+
+function sumar(seccion,id){
+
+  let cantidad=
+    parseInt(
+      estado[seccion][id].cantidad
+    )||0;
+
+  cantidad++;
+
+  estado[seccion][id].cantidad=
+    String(cantidad);
+
+  document.getElementById(
+    `${seccion}-${id}`
+  ).value=cantidad;
+
+  actualizarProducto(seccion,id);
+  actualizarResumen(seccion);
+  guardar();
+}
+
+
+/* PRODUCTO */
+
+function actualizarProducto(seccion,id){
+
+  const datos=
+    estado[seccion][id];
+
+  const caja=
+    document.getElementById(
+      `${seccion}-${id}-opciones`
+    );
+
+  if(!caja)return;
+
+  if(parseInt(datos.cantidad)>0){
+
+    caja.style.display="flex";
+
+  }else{
+
+    caja.style.display="none";
+
+    datos.harina=false;
+    datos.verdura=null;
+
+    caja.querySelectorAll("button")
+      .forEach(b=>b.classList.remove("activo"));
+  }
+
+  actualizarBotones(seccion,id);
+}
+
+
+/* HARINA */
+
+function harina(seccion,id){
+
+  const datos=
+    estado[seccion][id];
+
+  datos.harina=!datos.harina;
+
+  actualizarBotones(seccion,id);
+  actualizarResumen(seccion);
+  guardar();
+}
+
+
+/* VERDURA */
+
+function verdura(seccion,id,opcion){
+
+  const datos=
+    estado[seccion][id];
+
+  if(opcion==="s/c"){
+
+    if(datos.verdura==="s/ceb"){
+
+      datos.verdura="s/v";
+
+    }else{
+
+      datos.verdura=
+        datos.verdura==="s/c"
+        ? null
+        : "s/c";
+
+    }
+
+  }else if(opcion==="s/ceb"){
+
+    if(datos.verdura==="s/c"){
+
+      datos.verdura="s/v";
+
+    }else{
+
+      datos.verdura=
+        datos.verdura==="s/ceb"
+        ? null
+        : "s/ceb";
+
+    }
+
+  }else{
+
+    datos.verdura=
+      datos.verdura==="s/v"
+      ? null
+      : "s/v";
+
+  }
+
+  actualizarBotones(seccion,id);
+  actualizarResumen(seccion);
+  guardar();
+}
+
+
+/* BOTONES */
+
+function actualizarBotones(seccion,id){
+
+  const datos=
+    estado[seccion][id];
+
+  const h=
+    document.getElementById(
+      `${seccion}-${id}-h`
+    );
+
+  const sc=
+    document.getElementById(
+      `${seccion}-${id}-sc`
+    );
+
+  const sceb=
+    document.getElementById(
+      `${seccion}-${id}-sceb`
+    );
+
+  const sv=
+    document.getElementById(
+      `${seccion}-${id}-sv`
+    );
+
+  if(h)
+    h.classList.toggle(
+      "activo",
+      datos.harina
+    );
+
+  if(sc)
+    sc.classList.toggle(
+      "activo",
+      datos.verdura==="s/c"
+    );
+
+  if(sceb)
+    sceb.classList.toggle(
+      "activo",
+      datos.verdura==="s/ceb"
+    );
+
+  if(sv)
+    sv.classList.toggle(
+      "activo",
+      datos.verdura==="s/v"
+    );
+}
+
+
+/* RESUMEN */
+
+function actualizarResumen(seccion){
+
+  let html="";
+  let hay=false;
+
+  productos.forEach(p=>{
+
+    const datos=
+      estado[seccion][p.id];
+
+    const cantidad=
+      parseInt(datos.cantidad)||0;
+
+    if(cantidad>0){
+
+      hay=true;
+
+      let extras=[];
+
+      if(p.tipo==="taco" && datos.harina)
+        extras.push("h");
+
+      if(datos.verdura)
+        extras.push(datos.verdura);
+
+      html+=`
+        <div>
+          ${cantidad} ${p.nombre}
+          ${
+            extras.length
+            ? " — "+extras.join(" — ")
+            : ""
+          }
+        </div>
+      `;
+
+    }
+
+  });
+
+  const destino=
+    seccion==="aqui"
+    ? "resumenAqui"
+    : seccion==="llevar"
+    ? "resumenLlevar"
+    : "resumenPedido";
+
+  document.getElementById(destino)
+    .innerHTML=
+      hay
+      ? html
+      : "todavía no hay productos.";
+}
+
+
+/* ACTUALIZAR PANTALLA */
+
+function actualizarPantalla(seccion){
+
+  productos.forEach(p=>{
+
+    const input=
+      document.getElementById(
+        `${seccion}-${p.id}`
+      );
+
+    if(input){
+
+      input.value=
+        estado[seccion][p.id].cantidad;
+
+    }
+
+    actualizarProducto(seccion,p.id);
+
+  });
+
+  actualizarResumen(seccion);
+}
+
+
+/* ENVIAR */
+
+function enviar(seccion){
+
+  const mensaje=
+    document.getElementById(
+      seccion==="aqui"
+      ? "mensajeAqui"
+      : seccion==="llevar"
+      ? "mensajeLlevar"
+      : "mensajePedido"
+    );
+
+  if(seccion==="aqui"){
+
+    if(
+      !document.getElementById("mesa")
+        .value.trim()
+    ){
+
+      mensaje.textContent=
+        "falta la mesa.";
+
+      return;
+    }
+
+  }
+
+  if(seccion==="pedido"){
+
+    if(
+      !document.getElementById("ubicacion")
+        .value.trim()
+    ){
+
+      mensaje.textContent=
+        "falta la ubicación.";
+
+      return;
+    }
+
+  }
+
+  let hay=false;
+
+  productos.forEach(p=>{
+
+    if(
+      parseInt(
+        estado[seccion][p.id].cantidad
+      )>0
+    ){
+      hay=true;
+    }
+
+  });
+
+  if(!hay){
+
+    mensaje.textContent=
+      "agrega un producto.";
+
+    return;
+  }
+
+  mensaje.textContent=
+    "pedido listo.";
+
+}
+
+
+/* GUARDAR PARA QUE VOLVER NO BORRE */
+
+function guardar(){
+
+  try{
+
+    localStorage.setItem(
+      "taconazo_estado",
+      JSON.stringify(estado)
+    );
+
+    localStorage.setItem(
+      "taconazo_mesa",
+      document.getElementById("mesa")?.value||""
+    );
+
+    localStorage.setItem(
+      "taconazo_personas",
+      document.getElementById("personas")?.value||""
+    );
+
+    localStorage.setItem(
+      "taconazo_ubicacion",
+      document.getElementById("ubicacion")?.value||""
+    );
+
+  }catch(e){}
+
+}
+
+
+/* CARGAR */
+
+function cargar(){
+
+  try{
+
+    const guardado=
+      localStorage.getItem(
+        "taconazo_estado"
+      );
+
+    if(guardado){
+
+      const datos=
+        JSON.parse(guardado);
+
+      ["aqui","llevar","pedido"]
+        .forEach(seccion=>{
+
+          if(datos[seccion]){
+
+            productos.forEach(p=>{
+
+              if(datos[seccion][p.id]){
+
+                estado[seccion][p.id]=
+                  datos[seccion][p.id];
+
+              }
+
+            });
+
+          }
+
+        });
+
+    }
+
+    const mesa=
+      localStorage.getItem(
+        "taconazo_mesa"
+      );
+
+    const personas=
+      localStorage.getItem(
+        "taconazo_personas"
+      );
+
+    const ubicacion=
+      localStorage.getItem(
+        "taconazo_ubicacion"
+      );
+
+    if(mesa)
+      document.getElementById("mesa").value=mesa;
+
+    if(personas)
+      document.getElementById("personas").value=personas;
+
+    if(ubicacion)
+      document.getElementById("ubicacion").value=ubicacion;
+
+  }catch(e){}
+
+}
+
+
+/* INICIO */
+
+crearProductos();
+cargar();
+
+["aqui","llevar","pedido"]
+  .forEach(seccion=>{
+    actualizarPantalla(seccion);
+  });
+
+</script>
+
+</body>
+      </html>
